@@ -1,35 +1,21 @@
-import requests
-from bs4 import BeautifulSoup
+import csv
 
-def get_links(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, "html.parser")
-        links = soup.find_all("a")
-        hrefs = [link.get("href") for link in links]
-        return hrefs
-    else:
-        print("La requête a échoué avec le code", response.status_code)
+# Les données à écrire dans le fichier CSV
+data = [
+    ["user_id", "video_name", "style", "directory", "actors", "rating"],
+    [1, "Dune", "Action", "Director1", "Actor1, Actor2", 4],
+    [1, "Shogun", "Comedy", "Director2", "Actor3, Actor4", 3],
+    [1, "Les Trois Mousquetaires: Milady", "Action", "Director1", "Actor1, Actor2", 5],
+    [1, "Ninja_Kamui", "Drama", "Director3", "Actor5, Actor6", 5],
+    [2, "Dune", "Action", "Director1", "Actor1, Actor2", 3],
+    [2, "Shogun", "Comedy", "Director2", "Actor3, Actor4", 2],
+    [2, "Ninja_Kamui", "Drama", "Director3", "Actor5, Actor6", 5],
+    [3, "Dune", "Action", "Director1", "Actor1, Actor2", 4],
+    [3, "Shogun", "Comedy", "Director2", "Actor3, Actor4", 1],
+    [3, "Ninja_Kamui", "Drama", "Director3", "Actor5, Actor6", 5],
+]
 
-# Faire une requête GET à la page
-url = "https://wiflix.name/"
-domaine = get_links(url)
-
-print(domaine[0])
-video = get_links(domaine[0])
-
-series = []
-films = []
-autre = []
-
-for i in video:
-    if i.startswith("https://wiflix.cloud/serie-en-streaming/)"):
-        series.append(i)
-    elif i.startswith("https://wiflix.cloud/film-en-streaming/)"):
-        films.append(i)
-    else:
-        autre.append(i)
-    
-print(series)
-print(films)
-
+# Écriture des données dans le fichier CSV
+with open('movie_ratings.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerows(data)

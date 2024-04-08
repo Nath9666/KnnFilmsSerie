@@ -1,25 +1,29 @@
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
+import pandas as pd
 
-# Données d'entraînement
-X_train = [[1, 2], [2, 3], [3, 1], [6, 5], [7, 7], [8, 6]]
-y_train = ['chat', 'chat', 'chat', 'chien', 'chien', 'chien']
+# Créez un TfidfVectorizer pour convertir les attributs textuels en vecteurs numériques
+tfidf = TfidfVectorizer(stop_words='english')
 
-# Données de test
-X_test = [[4, 4], [5, 3], [2, 1], [7, 8]]
-y_test = ['chat', 'chat', 'chien', 'chien']
+# Lire le fichier CSV dans un DataFrame
+df = pd.read_csv('movie_ratings.csv')
 
-# Création du classifieur KNN
-knn = KNeighborsClassifier(n_neighbors=3)
+# Supposons que vous ayez un DataFrame pandas `df` avec les attributs 'style', 'directory', et 'actors' pour chaque film
+df['content'] = df['style'] + ' ' + df['directory'] + ' ' + df['actors']
+tfidf_matrix = tfidf.fit_transform(df['content'])
 
-# Entraînement du modèle
-knn.fit(X_train, y_train)
+# Calculez la matrice de similarité
+cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
-# Prédiction sur les données de test
-y_pred = knn.predict(X_test)
-print("Prédictions : ", y_pred)
+# Vous pouvez maintenant utiliser `cosine_sim` pour trouver les films les plus similaires à un film donné
+# Par exemple, pour trouver les 5 films les plus similaires au film avec l'index 0:
+sim_scores = list(enumerate(cosine_sim[0]))
+sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+sim_scores = sim_scores[1:6]
+movie_indices = [i[0] for i in sim_scores]
 
-# Calcul de la précision
-accuracy = accuracy_score(y_test, y_pred)
-print("Précision : ", accuracy)
+# Phrase pour presenter les données
+print("Les 5 films les plus similaires au film '",df['video_name'].iloc[0],"' sont:")
+for i in movie_indices:
+    if df['video_name'].iloc[i] != df['video_name'].iloc[0]:
+        print(df['video_name'].iloc[i])
