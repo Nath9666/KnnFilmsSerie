@@ -1,5 +1,6 @@
 //const fetch = require('node-fetch');
 const cheerio = require('cheerio');
+const { append } = require('domutils');
 
 // Fonction pour récupérer les liens d'une page web
 async function getLinks(url) {
