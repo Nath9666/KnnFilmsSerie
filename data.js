@@ -35,6 +35,8 @@ async function getData(url) {
             data.push(li);
         });
 
+        data.push('URL:' + url);
+
         return data;
     } catch (error) {
         console.error('Une erreur s\'est produite lors de la récupération des données:', error);
@@ -52,21 +54,47 @@ function exist(url, list){
 }
 
 // Ecris les données dans un fichier csv
-function writeData(data, filename) {
+function writeData_csv(data, filename) {
     const fs = require('fs');
     const path = require('path');
+    const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-    const ws = fs.createWriteStream(path.join(__dirname, filename))
-    ws.write('Name,Value\n');
+    const csvData = {};
     data.forEach((line) => {
         const parts = line.split(':');
         if (parts.length >= 2) {
-            const columnA = parts[0].trim();
-            const columnB = parts.slice(1).join(':').trim();
-            ws.write(`"${columnA}","${columnB}"\n`);
+            const name = parts[0].trim();
+            const value = parts.slice(1).join(':').trim();
+            csvData[name] = value;
         }
     });
-    ws.end();
+
+    const csvWriter = createCsvWriter({
+        path: path.join(__dirname, filename),
+        header: Object.keys(csvData).map(key => ({id: key, title: key}))
+    });
+
+    csvWriter.writeRecords([csvData]);
+}
+
+function writeData_json(data, filename) {
+    const fs = require('fs');
+    const path = require('path');
+
+    const jsonData = {};
+    const object = {};
+    data.forEach((line) => {
+        const parts = line.split(':');
+        if (parts.length >= 2) {
+            const name = parts[0].trim();
+            const value = parts.slice(1).join(':').trim();
+            object[name] = value;
+        }
+    });
+    name_object = data[data.length-1].split('//')[1].split('/')[2].split('.')[0];
+    jsonData[name_object] = object;
+
+    fs.writeFileSync(path.join(__dirname, filename), JSON.stringify(jsonData, null, 2));
 }
 
 // Exemple d'utilisation
@@ -92,7 +120,8 @@ async function main() {
         //console.log('Liens de films récupérés:', films);
         test = await getData(films[0]);
         console.log('Données récupérées:', test);
-        writeData(test, 'data.csv');
+        writeData_csv(test, './data/data.csv');
+        writeData_json(test, './data/data.json');
     } catch (error) {
         console.error('Une erreur s\'est produite:', error);
     }
