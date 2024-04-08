@@ -10,13 +10,27 @@ Pour faire cela on utilise les plus proche voisins a affinée en fonctions de
 
 On reprend les données d'un site de streaming assez complet [Wiflix](https://wiflix.name/)
 Ou l'on fait de requetes pour recupérer les données :
-- date de sortie
-- le ou les genre(s)
-- l'origine
-- le réalisateur
-- les acteurs
-- la durée
-- le synopsis
+- Titre original
+- Date de sortie
+- GENRE
+- ORIGINE
+- RÉALISATEUR
+- ACTEURS
+- Version
+- Qualité
+- Durée
+- Synopsis
+
+Exemple :
+'titre original: Dune: Part Two ',
+'Date de sortie: 2024 ',
+'GENRE:  Film, Exclue, Drame, Science Fiction ',
+'ORIGINE: U.S.A. ',
+'RÉALISATEUR: Denis Villeneuve',
+'ACTEURS: Timothée Chalamet, Zendaya, Rebecca Ferguson, Josh Brolin',
+'Version: VOSTFR',
+'Qualité: HDLight',
+'Durée: 2 h 46 mn'
 
 ## Devellopement suplémentaire
 
