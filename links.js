@@ -74,8 +74,15 @@ async function get_normal_links(url, name){
 }
 
 
-const startingUrl = 'https://wiflix.cloud/';
-// lire le fichier 29992-dune-deuxieme-partie.txt
+file_links = fs.readdirSync('./links2');
+console.log(file_links.length)
+const index = Math.floor(Math.random() * file_links.length);
+console.log(file_links[index])
+file = file_links[index];
+const filePath = path.join('./links', file);
+const newFilePath = path.join('./links2', file);
+fs.renameSync(newFilePath, filePath);
+
 nb_file = fs.readdirSync('./links').length;
 console.log(nb_file)
 if (nb_file < 100) {
