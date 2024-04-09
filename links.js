@@ -46,21 +46,31 @@ async function get_normal_links(url, name){
     if (fs.existsSync(path.join(__dirname, "./links/"+ name + '.txt'))) {
         return;
     }
-
-    const response = await fetch(url);
-    const array = [];
-    const html = await response.text();
-    const linkRegex = /<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g;
-    let match;
-    while ((match = linkRegex.exec(html))) {
-        const link = match[2];
-        if (link.startsWith('http') || link.startsWith('https')) {
-            if (link.includes('wiflix') && link.endsWith('.html')) {
-                array.push(link);
-                await fsp.appendFile("./links/"+ name + '.txt', link + '\n').catch(console.error);
-            }
+    const response = await fetch(url, { timeout: 500 });
+    try {
+        if (!response.ok) {
+            return;
         }
-    }                  
+        const array = [];
+        const html = await response.text();
+        const linkRegex = /<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g;
+        let match;
+        while ((match = linkRegex.exec(html))) {
+            const link = match[2];
+            if (link.startsWith('http') || link.startsWith('https')) {
+                if (link.includes('wiflix') && link.endsWith('.html')) {
+                    array.push(link);
+                    await fsp.appendFile("./links/"+ name + '.txt', link + '\n').catch(console.error);
+                }
+            }
+        }                  
+    } catch (error) {
+        if (error.code === 'UND_ERR_CONNECT_TIMEOUT') {
+            console.error(`La requête a dépassé le délai d'attente pour l'URL ${url}`);
+            return;
+        }
+        throw error;
+    } 
 }
 
 
