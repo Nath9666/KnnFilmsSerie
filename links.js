@@ -1,89 +1,83 @@
 //const fetch = require('node-fetch');
-const cheerio = require('cheerio');
-const fs = require('fs').promises;
+const fs = require('fs');
+const fsp = require('fs').promises;
+const path = require('path');
 
-async function getLinks(url, visited = new Set()) {
-    if (visited.has(url)) {
-        return [];
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function getLinks(url, visited = new Set(), depth = 0) {
+    if (visited.has(url) || depth > 100) {
+        return;
     }
 
     visited.add(url);
 
     try {
+        await sleep(1000); // Attendre 1 seconde entre chaque requête
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
         }
 
         const html = await response.text();
-        const $ = cheerio.load(html);
-        const links = [];
-
-        $('a').each((index, element) => {
-            const link = $(element).attr('href');
-            if (link && (link.startsWith('http') || link.startsWith('https'))) {
-                if (!visited.has(link) && link.includes('wiflix') && link.endsWith('.html')) {
-                    links.push(link);
+        const linkRegex = /<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g;
+        let match;
+        while ((match = linkRegex.exec(html))) {
+            const link = match[2];
+            if (link.startsWith('http') || link.startsWith('https')) {
+                if (!visited.has(link)){
+                    if (link.includes('wiflix') && link.endsWith('.html')) {
+                        console.log(link);
+                        await fsp.appendFile('links.txt', link + '\n').catch(console.error);
+                    }
+                    visited.add(link);
                 }
+                await getLinks(link, visited, depth + 1);
             }
-        });
-
-        return links;
+        }
     } catch (error) {
         console.error(`Erreur lors de la récupération des liens de ${url}:`, error);
-        return [];
     }
 }
 
-async function getData(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error ${response.status}`);
-        }
-
-        const html = await response.text();
-        const $ = cheerio.load(html);
-        const data = [];
-
-        $('.mov-list li').each((index, element) => {
-            const li = $(element).text();
-            data.push(li);
-        });
-
-        data.push('URL:' + url);
-
-        return data;
-    } catch (error) {
-        console.error(`Erreur lors de la récupération des données de ${url}:`, error);
-        return [];
+async function get_normal_links(url, name){
+    if (fs.existsSync(path.join(__dirname, "./links/"+ name + '.txt'))) {
+        fs.unlinkSync(path.join(__dirname, "./links/"+ name + '.txt'));
     }
-}
 
-async function writeData(data, filename) {
-    const jsonData = {};
-    data.forEach((line) => {
-        const parts = line.split(':');
-        if (parts.length >= 2) {
-            const name = parts[0].trim();
-            const value = parts.slice(1).join(':').trim();
-            jsonData[name] = value;
+    const response = await fetch(url);
+    const array = [];
+    const html = await response.text();
+    const linkRegex = /<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g;
+    let match;
+    while ((match = linkRegex.exec(html))) {
+        const link = match[2];
+        if (link.startsWith('http') || link.startsWith('https')) {
+            if (link.includes('wiflix') && link.endsWith('.html')) {
+                array.push(link);
+                await fsp.appendFile("./links/"+ name + '.txt', link + '\n').catch(console.error);
+            }
         }
-    });
-
-    await fs.appendFile(filename, JSON.stringify(jsonData, null, 2) + '\n').catch(console.error);
+    }                  
 }
+
 
 const startingUrl = 'https://wiflix.cloud/';
-const visited = new Set();
-const filename = 'data.json';
-
-async function main() {
-    const links = await getLinks(startingUrl, visited);
-    for (const link of links) {
-        const data = await getData(link);
-        await writeData(data, filename);
+// lire le fichier 29992-dune-deuxieme-partie.txt
+for (const file of fs.readdirSync('./links')) {
+    const filePath = path.join('./links', file);
+    if (fs.existsSync(filePath)) {
+        const data = fs.readFileSync(filePath, 'utf8');
+        for (const url of data.split('\n')) {
+            const segments = url.split('/');
+            if (segments.length > 4) {
+                const name = segments[4].split('.')[0];
+                get_normal_links(url, name);
+            }
+        }
+    } else {
+        console.log(`Le fichier ${filePath} n'existe pas.`);
     }
 }
-
-main().catch(console.error);
