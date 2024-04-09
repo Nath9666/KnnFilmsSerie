@@ -1,4 +1,16 @@
 {
+  "30490-kung-fu-panda-4": {
+    "titre original": "Kung Fu Panda 4",
+    "Date de sortie": "2024",
+    "GENRE": "Film, Exclue, Animation, arts-martiaux, Aventure, Comédie, Famille",
+    "ORIGINE": "U.S.A",
+    "RÉALISATEUR": "Mike Mitchell (V), Stephanie Stine",
+    "ACTEURS": "Manu Payet, Jack Black, Awkwafina",
+    "Version": "French",
+    "Qualité": "HDLight",
+    "Durée": "1h 33min",
+    "URL": "https://wiflix.cloud/film-en-streaming/30490-kung-fu-panda-4.html"
+  },
   "30480-dune-deuxieme-partie": {
     "titre original": "Dune: Part Two",
     "Date de sortie": "2024",
@@ -46,18 +58,6 @@
     "Qualité": "HDLight",
     "Durée": "1h 55min",
     "URL": "https://wiflix.cloud/film-en-streaming/30395-les-trois-mousquetaires-milady.html"
-  },
-  "30376-kung-fu-panda-4": {
-    "titre original": "Kung Fu Panda 4",
-    "Date de sortie": "2024",
-    "GENRE": "Film, Exclue, Animation, arts-martiaux, Aventure, Comédie, Famille",
-    "ORIGINE": "U.S.A",
-    "RÉALISATEUR": "Mike Mitchell (V), Stephanie Stine",
-    "ACTEURS": "Manu Payet, Jack Black, Awkwafina",
-    "Version": "TrueFrench",
-    "Qualité": "CAM",
-    "Durée": "1h 34 min",
-    "URL": "https://wiflix.cloud/film-en-streaming/30376-kung-fu-panda-4.html"
   },
   "30352-imaginary": {
     "titre original": "Imaginary",
@@ -323,6 +323,18 @@
     "Durée": "1 h 33 mn",
     "URL": "https://wiflix.cloud/film-en-streaming/27755-after-chapitre-5.html"
   },
+  "29907-la-zone-dinteret": {
+    "titre original": "The Zone Of Interest",
+    "Date de sortie": "2024",
+    "GENRE": "Film, Drame, Guerre, Historique",
+    "ORIGINE": "États-Unis, Royaume-Uni, Pologne",
+    "RÉALISATEUR": "Jonathan Glazer",
+    "ACTEURS": "Christian Friedel, Sandra Hüller, Johann Karthaus",
+    "Version": "French",
+    "Qualité": "HDLight",
+    "Durée": "1h 45min",
+    "URL": "https://wiflix.cloud/film-en-streaming/29907-la-zone-dinteret.html"
+  },
   "30367-une-vie": {
     "titre original": "One Life",
     "Date de sortie": "2024",
@@ -358,18 +370,6 @@
     "Qualité": "HDLight",
     "Durée": "1h 45min",
     "URL": "https://wiflix.cloud/film-en-streaming/30481-bisons.html"
-  },
-  "30489-woods-witch": {
-    "titre original": "Woods Witch",
-    "Date de sortie": "2024",
-    "GENRE": "Film, Thriller",
-    "ORIGINE": "U.S.A",
-    "RÉALISATEUR": "Lauren Francesca, Shawn C. Phillips",
-    "ACTEURS": "Shawn C. Phillips, Lauren Francesca",
-    "Version": "French",
-    "Qualité": "Bdrip LD",
-    "Durée": "1h 33min",
-    "URL": "https://wiflix.cloud/film-en-streaming/30489-woods-witch.html"
   },
   "776-le-bal-des-casse-pieds": {
     "Date de sortie": "1992",
@@ -597,53 +597,5 @@
     "Qualité": "HDLight",
     "Durée": "4h 02min",
     "URL": "https://wiflix.cloud/film-en-streaming/20918-zack-snyders-justice-league.html"
-  },
-  "19061-matri4": {
-    "titre original": "The Matrix Resurrections",
-    "Date de sortie": "2021",
-    "GENRE": "Film, Exclue, Action, Science Fiction",
-    "ORIGINE": "U.S.A.",
-    "RÉALISATEUR": "Lana Wachowski, David Mitchell",
-    "ACTEURS": "Keanu Reeves, Carrie-Anne Moss, Yahya Abdul-Mateen II",
-    "Version": "TrueFrench",
-    "Qualité": "HDLight",
-    "Durée": "2 h 30 mn",
-    "URL": "https://wiflix.cloud/film-en-streaming/19061-matri4.html"
-  },
-  "21766-the-suicide-squad": {
-    "titre original": "The Suicide Squad",
-    "Date de sortie": "2021",
-    "GENRE": "Film, Exclue, Action, Aventure, Fantastique",
-    "ORIGINE": "U.S.A",
-    "RÉALISATEUR": "James Gunn, John Ostrander",
-    "ACTEURS": "Margot Robbie, Viola Davis, Joel Kinnaman",
-    "Version": "TrueFrench",
-    "Qualité": "HDLight",
-    "Durée": "2h 12min",
-    "URL": "https://wiflix.cloud/film-en-streaming/21766-the-suicide-squad.html"
-  },
-  "22016-shang-chi-et-la-legende-des-dix-anneaux": {
-    "titre original": "Shang-Chi and the Legend of the Ten Rings",
-    "Date de sortie": "2021",
-    "GENRE": "Film, Action, Fantastique",
-    "ORIGINE": "U.S.A.",
-    "RÉALISATEUR": "Destin Daniel Cretton",
-    "ACTEURS": "Simu Liu, Tony Leung Chiu-Wai, Awkwafina, Fala Chen",
-    "Version": "TrueFrench",
-    "Qualité": "HDLight",
-    "Durée": "2 h 12 mn",
-    "URL": "https://wiflix.cloud/film-en-streaming/22016-shang-chi-et-la-legende-des-dix-anneaux.html"
-  },
-  "19358-after-chapitre-2gg": {
-    "titre original": "After We Collided",
-    "Date de sortie": "2020",
-    "GENRE": "Film Ancien, Drame, Romance",
-    "ORIGINE": "U.S.A.",
-    "RÉALISATEUR": "Roger Kumble",
-    "ACTEURS": "Josephine Langford, Hero Fiennes Tiffin, Dylan Sprouse",
-    "Version": "TrueFrench",
-    "Qualité": "HDLight",
-    "Durée": "1 h 46 mn",
-    "URL": "https://wiflix.cloud/film-ancien/19358-after-chapitre-2gg.html"
   }
 }
