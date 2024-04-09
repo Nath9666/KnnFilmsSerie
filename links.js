@@ -76,18 +76,29 @@ async function get_normal_links(url, name){
 
 const startingUrl = 'https://wiflix.cloud/';
 // lire le fichier 29992-dune-deuxieme-partie.txt
-for (const file of fs.readdirSync('./links')) {
-    const filePath = path.join('./links', file);
-    if (fs.existsSync(filePath)) {
-        const data = fs.readFileSync(filePath, 'utf8');
-        for (const url of data.split('\n')) {
-            const segments = url.split('/');
-            if (segments.length > 4) {
-                const name = segments[4].split('.')[0];
-                get_normal_links(url, name);
+nb_file = fs.readdirSync('./links').length;
+console.log(nb_file)
+if (nb_file < 100) {
+    for (const file of fs.readdirSync('./links')) {
+        const filePath = path.join('./links', file);
+        if (fs.existsSync(filePath)) {
+            const data = fs.readFileSync(filePath, 'utf8');
+            for (const url of data.split('\n')) {
+                const segments = url.split('/');
+                if (segments.length > 4) {
+                    const name = segments[4].split('.')[0];
+                    get_normal_links(url, name);
+                }
             }
+        } else {
+            console.log(`Le fichier ${filePath} n'existe pas.`);
         }
-    } else {
-        console.log(`Le fichier ${filePath} n'existe pas.`);
+    }
+}else{
+    // deplace les fichiers dans links2
+    for (const file of fs.readdirSync('./links')) {
+        const filePath = path.join('./links', file);
+        const newFilePath = path.join('./links2', file);
+        fs.renameSync(filePath, newFilePath);
     }
 }
