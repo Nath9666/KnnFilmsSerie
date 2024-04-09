@@ -44,7 +44,7 @@ async function getLinks(url, visited = new Set(), depth = 0) {
 
 async function get_normal_links(url, name){
     if (fs.existsSync(path.join(__dirname, "./links/"+ name + '.txt'))) {
-        fs.unlinkSync(path.join(__dirname, "./links/"+ name + '.txt'));
+        return;
     }
 
     const response = await fetch(url);
