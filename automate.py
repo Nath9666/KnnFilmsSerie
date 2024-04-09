@@ -15,33 +15,16 @@ temp = count_files_in_directory(directory)
 boucle = True
 
 while boucle:
-    # lance la commande pour lancer le data.js
-    subprocess.run(["node", "links.js"])
+    for i in range(5):
+        # lance la commande pour lancer le data.js
+        subprocess.run(["node", "links.js"])
 
-    # Attendre 4 secondes avant de répéter
-    time.sleep(5)
-
-    # lance la commande pour lancer le data.js
-    subprocess.run(["node", "links.js"])
-
-    # Attendre 4 secondes avant de répéter
-    time.sleep(5)
-
-    # lance la commande pour lancer le data.js
-    subprocess.run(["node", "links.js"])
-
-    # Attendre 4 secondes avant de répéter
-    time.sleep(5)
-
-    # lance la commande pour lancer le data.js
-    subprocess.run(["node", "links.js"])
-
-    # Attendre 4 secondes avant de répéter
-    time.sleep(5)
-
-    if temp == count_files_in_directory(directory) + count_files_in_directory("links"):
+        # Attendre 4 secondes avant de répéter
+        time.sleep(5)
+    if temp == count_files_in_directory(directory):
         print("Pas de nouveaux fichiers")
-        boucle = False
+        subprocess.run(["node", "links.js"])
+        #boucle = False
     else:
         temp = count_files_in_directory(directory)
         print("Nouveau fichiers trouves")
