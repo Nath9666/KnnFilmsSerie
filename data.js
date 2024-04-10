@@ -163,7 +163,7 @@ async function main() {
         // Utiliser les liens du fichier au lieu de ceux récupérés à partir de la page web
         for (let i = 0; i < linksFromFile.length; i++) {
             if (!exist(linksFromFile[i], films)) {
-                if (linksFromFile[i].includes("film") && linksFromFile[i].includes("html")) {
+                if (linksFromFile[i].includes("film") || linksFromFile[i].includes("serie")) {
                     films.push(linksFromFile[i]);
                 }
             }
