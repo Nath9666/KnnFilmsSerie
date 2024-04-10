@@ -32,6 +32,14 @@ Exemple :
 'Qualité: HDLight',
 'Durée: 2 h 46 mn'
 
+### Application des fichiers
+
+Dans un premier temps on a devellopé [links.js](links.js) qui nous permet de recupérer et d'enregistrer les liens dans un fichiers txt dans le dossier [links](./links/)
+
+Puis nous avons fait [automate.py](automate.py) qui nous sert à automatiser le lancement de `links.js`
+
+Enfin on reprend tout les fichiers dans [links2](./links2/) afin de faire un fichiers txt contenant tout les liens contenu dans les fichiers en fesant attention au duplicatas. [fusion.py](fusion.py)
+
 ## Devellopement suplémentaire
 
 faire une interface graphique avec tkinter
