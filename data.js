@@ -1,6 +1,9 @@
 //const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const { append } = require('domutils');
+const fs = require('fs');
+const path = require('path');
+const { domainToASCII } = require('url');
 
 // Fonction pour récupérer les liens d'une page web
 async function getLinks(url) {
@@ -30,13 +33,23 @@ async function getData(url) {
         const $ = cheerio.load(body);
         const data = [];
 
+        data.push('titre:' + $('h1').text());
         // Utilisez le sélecteur CSS pour cibler les balises <li> dans l'élément avec la classe .mov-list
         $('.mov-list li').each((index, element) => {
-            const li = $(element).text();
+            var li = $(element).text();
+            li = li.split(":")
+            li = li[0].toLowerCase() + ":" + li[1];
             data.push(li);
         });
 
-        data.push('URL:' + url);
+        let synopsis = $('.screenshots-full').text();
+        synopsis = synopsis.replace(/\n/g, '').replace(/\t/g, '').replace(":", '').split('Streaming Complet:')[1];
+        data.push('synopsis:' + synopsis);
+        
+        const img_data = $('#posterimg').attr('src');
+        
+        data.push('image:' + "https://wiflix.cloud" + img_data);
+        data.push('url:' + url.replace('\r', ''));
 
         return data;
     } catch (error) {
@@ -86,11 +99,13 @@ function writeData_json(data, filename) {
     const jsonData = {};
     const object = {};
     data.forEach((line) => {
-        const parts = line.split(':');
-        if (parts.length >= 2) {
-            const name = parts[0].trim();
-            const value = parts.slice(1).join(':').trim();
-            object[name] = value;
+    if (line) { // Ajoutez cette vérification
+            const parts = line.split(':');
+            if (parts.length >= 2) {
+                const name = parts[0].trim();
+                const value = parts.slice(1).join(':').trim();
+                object[name] = value;
+            }
         }
     });
     name_object = data[data.length-1].split('//')[1].split('/')[2].split('.')[0];
@@ -108,6 +123,21 @@ function writeData_json(data, filename) {
     fs.writeFileSync(path.join(__dirname, filename), JSON.stringify(combinedData, null, 2));
 }
 
+function chargement(i, length) {
+    let progress = (i/length*100).toFixed(2);
+    process.stdout.write('\r' + progress + "%");
+    // barre de chargement sur la console
+    process.stdout.write('[');
+    for (let i = 0; i < 50; i++) {
+       if (i < (progress / 2)) {
+           process.stdout.write('#');
+       } else {
+           process.stdout.write(' ');
+       }
+    }
+    process.stdout.write(']');
+}
+
 // Exemple d'utilisation
 const url = 'https://wiflix.name/';
 var domaine = [];
@@ -117,8 +147,6 @@ var films = [];
 var test = [];
 
 // Surpime les fichiers data.csv et data.json
-const fs = require('fs');
-const path = require('path');
 if (fs.existsSync(path.join(__dirname, './data/data.csv'))) {
     fs.unlinkSync(path.join(__dirname, './data/data.csv'));
 }
@@ -129,22 +157,24 @@ if (fs.existsSync(path.join(__dirname, './data/data.json'))) {
 
 async function main() {
     try {
-        domaine = await getLinks(url);
-        console.log('Liens récupérés:', domaine);
-        links_video = await getLinks(domaine[0]);
-        for (let i = 0; i < links_video.length; i++) {
-            if (!exist(links_video[i], films)) {
-                if (links_video[i].includes("film") && links_video[i].includes("html")) {
-                    films.push(links_video[i]);
+        // Lire les liens à partir du fichier merged.txt
+        const linksFromFile = fs.readFileSync(path.join(__dirname, 'merged.txt'), 'utf-8').split('\n');
+
+        // Utiliser les liens du fichier au lieu de ceux récupérés à partir de la page web
+        for (let i = 0; i < linksFromFile.length; i++) {
+            if (!exist(linksFromFile[i], films)) {
+                if (linksFromFile[i].includes("film") && linksFromFile[i].includes("html")) {
+                    films.push(linksFromFile[i]);
                 }
             }
         }
-        //console.log('Liens de films récupérés:', films);
+
         for (let i = 0; i < films.length; i++) {
             test = await getData(films[i]);
-            console.log('Données récupérées:', test);
-            writeData_csv(test, 'data/data.csv');
+            //console.log('Données récupérées:', test);
+            //writeData_csv(test, 'data/data.csv');
             writeData_json(test, 'data/data.json');
+            chargement(i, films.length);
         }
     } catch (error) {
         console.error('Une erreur s\'est produite:', error);

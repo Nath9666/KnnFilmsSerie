@@ -20,7 +20,7 @@ while boucle:
         subprocess.run(["node", "links.js"])
 
         # Attendre 4 secondes avant de répéter
-        time.sleep(5)
+        time.sleep(2)
     if temp == count_files_in_directory(directory):
         print("Pas de nouveaux fichiers")
         subprocess.run(["node", "links.js"])
